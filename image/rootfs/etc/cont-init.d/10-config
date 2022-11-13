@@ -1,0 +1,50 @@
+#!/command/with-contenv /bin/sh
+
+cd ${MOVIM_HOME}
+
+### create movim .env configuration file
+cat <<EOT > ${MOVIM_HOME}/.env
+# Database configuration
+DB_DRIVER=${DB_DRIVER:-pgsql}
+DB_HOST=${DB_HOST:-localhost}
+DB_PORT=${DB_PORT:-5432}
+DB_DATABASE=${DB_DATABASE:-movim}
+DB_USERNAME=${DB_USERNAME:-movim}
+DB_PASSWORD=${DB_PASSWORD:-movim}
+
+# Daemon configuration
+DAEMON_URL=${DAEMON_URL:-https://public-movim.url/}
+DAEMON_PORT=${DAEMON_PORT:-8080}
+DAEMON_INTERFACE=${DAEMON_INTERFACE:-0.0.0.0}
+DAEMON_DEBUG=${DAEMON_DEBUG:-false}
+DAEMON_VERBOSE=${DAEMON_VERBOSE:-false}
+EOT
+
+### wait for database server to be available
+#echo "Testing database server connection..."
+#
+#PING_CMD="ping -t 3 -c 1 $DB_HOST > /dev/null 2>&1"
+#
+#eval $PING_CMD
+#
+#if [[ $? -eq 0 ]]; then
+#    echo "Connected!."
+#else
+#    echo -n "Waiting for connection..."
+#
+#    while true; do
+#        eval $PING_CMD
+#
+#        if [[ $? -eq 0 ]]; then
+#            echo
+#            echo Connected.
+#            break
+#        else
+#            sleep 0.5
+#            echo -n .
+#        fi
+#    done
+#fi
+
+### initialize movim
+php vendor/bin/phinx migrate
