@@ -14,14 +14,14 @@ Images are scanned daily by trivy and if necessary, the latest tag will be rebui
 
 ## Tags
 
-The image name is `ghcr.io/sando38/movim`. Images are available from tag `0.21rc3` onwards. The first image build has a `-r0` suffix.
+The image name is `ghcr.io/sando38/movim`. Images are available from tag `v0.21rc3` onwards. The first image build has a `-r0` suffix.
 
 Experimental Alpine based images have an `-alpine` suffix.
 
 | Tags  | Description  | Additional notes  |
 | ------------ | ------------ | ------------ |
-| `0.21rc3`, `latest`  | [Release changelog](https://github.com/movim/movim/blob/master/CHANGELOG.md)  |   |
-| `0.21rc3-alpine`  | [Release changelog](https://github.com/movim/movim/blob/master/CHANGELOG.md)  |   |
+| `v0.21rc3`, `latest`  | [Release changelog](https://github.com/movim/movim/blob/master/CHANGELOG.md)  |   |
+| `v0.21rc3-alpine`, `latest-alpine`  | [Release changelog](https://github.com/movim/movim/blob/master/CHANGELOG.md)  |   |
 
 All images are based upon the official `php-fpm` docker images with latest OS (e.g. `Debian bullseye`).
 

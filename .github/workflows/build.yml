@@ -10,7 +10,6 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 #  DOCKERHUB_REPO: sando38/movim
   PKGREL_FILE: pkgrel
-  SHA512_FILE: sha512
 
 jobs:
   detect-change:
@@ -59,7 +58,6 @@ jobs:
         run: |
           echo "TAG_PKGREL=$(echo $(cat ${{ env.PKGREL_FILE }} | tail -n 1))" >> $GITHUB_ENV
           echo "TAG_VERSION=$(echo $(cat ${{ env.PKGREL_FILE }} | tail -n 1) | sed 's/\-/ /1' | awk '{ print $1 }')" >> $GITHUB_ENV
-          echo "MOVIM_SHA512=$(echo $(cat ${{ env.SHA512_FILE }} | tail -n 1))" >> $GITHUB_ENV
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -103,7 +101,6 @@ jobs:
         with:
           build-args: |
             MOVIM_VERSION=${{ env.TAG_VERSION }}
-            MOVIM_SHA512=${{ env.MOVIM_SHA512 }}
           context: ${{ env.DOCKERFILE_PATH }}/.
           file: ${{ env.DOCKERFILE_PATH }}/Dockerfile.debian
           platforms: linux/amd64,linux/arm64
@@ -131,7 +128,6 @@ jobs:
         run: |
           echo "TAG_PKGREL=$(echo $(cat ${{ env.PKGREL_FILE }} | tail -n 1))" >> $GITHUB_ENV
           echo "TAG_VERSION=$(echo $(cat ${{ env.PKGREL_FILE }} | tail -n 1) | sed 's/\-/ /1' | awk '{ print $1 }')" >> $GITHUB_ENV
-          echo "MOVIM_SHA512=$(echo $(cat ${{ env.SHA512_FILE }} | tail -n 1))" >> $GITHUB_ENV
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -175,7 +171,6 @@ jobs:
         with:
           build-args: |
             MOVIM_VERSION=${{ env.TAG_VERSION }}
-            MOVIM_SHA512=${{ env.MOVIM_SHA512 }}
           context: ${{ env.DOCKERFILE_PATH }}/.
           file: ${{ env.DOCKERFILE_PATH }}/Dockerfile.alpine
           platforms: linux/amd64,linux/arm64
