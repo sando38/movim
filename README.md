@@ -40,6 +40,10 @@ If both have been adjusted, start the stack with:
 
     docker compose up -d
 
+Movim starts [w/o any admins](https://github.com/movim/movim/blob/master/INSTALL.md#5-admin-panel). An admin could be defined with:
+
+    docker exec movim php daemon.php setAdmin {jid}
+
 ### docker-compose.yml
 
 There are some aspects to double check:
