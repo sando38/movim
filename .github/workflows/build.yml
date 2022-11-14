@@ -166,6 +166,7 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 #            ${{ env.DOCKERHUB_REPO }}
           tags: |
+            latest-alpine
             ${{ env.TAG_PKGREL }}-alpine
             ${{ env.TAG_VERSION }}-alpine
       -
