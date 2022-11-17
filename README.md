@@ -7,7 +7,9 @@ Differences to the official image are:
 * built for `x86-64` and `arm64`
 * runs as non-root user
 * does not require any Linux capabilities
+* build with php8
 * s6-overlay to manage the different processes
+* additionally includes `mysql`/`mariadb` database driver
 * (is available also as an Alpine based image, which has an [issue](https://github.com/sando38/movim/issues/1), however)
 
 Images are scanned daily by trivy and if necessary, the latest tag will be rebuilt and published.
@@ -90,6 +92,8 @@ Potential ToDos for the future:
 
 * Fix Alpine container image
 * Integrate nginx into the movim image
+* Make use of Docker secrets
+* Check movim update/upgrade procedure
 
 ## Feedback
 
