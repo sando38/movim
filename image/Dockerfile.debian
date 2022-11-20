@@ -63,7 +63,7 @@ RUN set -x && apt-get update && apt-get upgrade -y \
               git \
               wget \
        && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
-	&& apt-get clean \
+       && apt-get clean \
        && rm -rf /tmp/* /usr/local/bin/install-php-extensions /var/lib/apt/lists/* ${MOVIM_HOME}/.git* ${MOVIM_HOME}/.git
 
 EXPOSE 8080 9000

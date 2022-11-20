@@ -2,6 +2,14 @@
 
 cd ${MOVIM_HOME}
 
+# check if password is a "file" or variable
+if [ -n "${DB_PASSWORD_FILE:-}" ]; then
+    # create secret from file
+    export DB_PASSWORD=$(cat "$DB_PASSWORD_FILE")
+elif [ -z "${DB_PASSWORD:-}" ]; then
+    echo ">>> No DB_PASSWORD or DB_PASSWORD_FILE is set"
+fi
+
 ### create movim .env configuration file
 cat <<EOT > ${MOVIM_HOME}/.env
 # Database configuration

@@ -1,14 +1,14 @@
 # [Movim](https://movim.eu/) docker image
 
-This repository provides an inofficial [movim](https://github.com/movim/movim) docker container. There is also an official docker image available.
+This repository provides an inofficial [movim](https://github.com/movim/movim) docker container. There is also an [official](https://github.com/movim/movim_docker) docker image available.
 
 Differences to the official image are:
 
 * built for `x86-64` and `arm64`
 * runs as non-root user
 * does not require any Linux capabilities
-* build with php8
-* s6-overlay to manage the different processes
+* build with `php8`
+* `s6-overlay` to manage the different processes
 * additionally includes `mysql`/`mariadb` database driver
 * (is available also as an Alpine based image, which has an [issue](https://github.com/sando38/movim/issues/1), however)
 
@@ -86,13 +86,14 @@ This file contains the environment variables, which are read by movim during sta
 
 [https://github.com/movim/movim/blob/master/INSTALL.md#2-dotenv-configuration](https://github.com/movim/movim/blob/master/INSTALL.md#2-dotenv-configuration)
 
+The `DB_PASSWORD` environment variable can also be exchanged with `DB_PASSWORD_FILE` which makes use of Docker secrets.
+
 ## ToDos
 
 Potential ToDos for the future:
 
 * Fix Alpine container image
 * Integrate nginx into the movim image
-* Make use of Docker secrets
 * Check movim update/upgrade procedure
 
 ## Feedback

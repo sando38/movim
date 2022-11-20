@@ -1,5 +1,9 @@
 version: "3.7"
 
+# secrets: # should be owned by movim user:group (9000:9000)
+#   db_password:
+#     file: /path/to/db_password
+
 services:
   movim:
     ### general settings
@@ -23,8 +27,11 @@ services:
     ### Environment variables
     # environment:
     #   - DAEMON_URL="localhost"
+    #   - DB_PASSWORD_FILE=/run/secrets/db_password
     env_file:
       - movim.env
+    # secrets:
+    #   - db_password
 
     ### Volume mounts
     volumes:
