@@ -1,6 +1,19 @@
 #!/command/with-contenv /bin/sh
 
-cd ${MOVIM_HOME}
+# copy image's movim version into workdir
+if ! [ -e daemon.php -a -e public/index.php ]; then
+	echo >&2 "Movim not found in $MOVIM_HOME - copying now..."
+	if [ "$(ls -A)" ]; then
+		echo >&2 "WARNING: $MOVIM_HOME is not empty - press Ctrl+C now if this is an error!"
+		( set -x; ls -A; sleep 10 )
+	fi
+	cd /tmp/builder
+	tar cf - * | ( cd $MOVIM_HOME; tar xfp -)
+	echo >&2 "Complete! Movim ${MOVIM_VERSION} has been successfully copied to $MOVIM_HOME"
+	cd $MOVIM_HOME
+	# cleanup build files
+	rm -rf /tmp/*
+fi
 
 # check if password is a "file" or variable
 if [ -n "${DB_PASSWORD_FILE:-}" ]; then

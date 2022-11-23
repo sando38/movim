@@ -94,7 +94,6 @@ Potential ToDos for the future:
 
 * Fix Alpine container image
 * Integrate nginx into the movim image
-* Check movim update/upgrade procedure
 
 ## Feedback
 

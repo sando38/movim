@@ -16,10 +16,12 @@ ARG S6_VERSION="v3.1.2.1"
 
 # RUNTIME: define environment variables
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS="2" \
+       S6_CMD_WAIT_FOR_SERVICES_MAXTIME="0" \
        S6_READ_ONLY_ROOT="1" \
-       MOVIM_HOME="/movim"
+       MOVIM_HOME="/movim" \
+       MOVIM_VERSION="$MOVIM_VERSION"
 
-WORKDIR ${MOVIM_HOME}
+WORKDIR /tmp/builder
 
 RUN set -x && apt-get update && apt-get upgrade -y \
 # BUILD: add build dependencies
@@ -50,7 +52,7 @@ RUN set -x && apt-get update && apt-get upgrade -y \
 # RUNTIME: add runtime group and user
        && groupadd -g ${GID} ${USER} \
        && useradd -d ${MOVIM_HOME} -m -g ${GID} -u ${UID} -s /sbin/nologin ${USER} \
-       && chown -R ${UID}:${GID} ${MOVIM_HOME} \
+       && chown -R ${UID}:${GID} ${MOVIM_HOME} /tmp/builder \
 # RUNTIME: install runtime init (s6-overlay)
        && ARCH=$(uname -m) \
        && wget -qO - https://github.com/just-containers/s6-overlay/releases/download/$S6_VERSION/s6-overlay-noarch.tar.xz | tar xfJ - -C / \
@@ -64,8 +66,9 @@ RUN set -x && apt-get update && apt-get upgrade -y \
               wget \
        && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
        && apt-get clean \
-       && rm -rf /tmp/* /usr/local/bin/install-php-extensions /var/lib/apt/lists/* ${MOVIM_HOME}/.git* ${MOVIM_HOME}/.git
+       && rm -rf /usr/local/bin/install-php-extensions /var/lib/apt/lists/* /tmp/builder/.git*
 
+WORKDIR ${MOVIM_HOME}
 EXPOSE 8080 9000
 USER ${USER}
 VOLUME ["${MOVIM_HOME}", "/php", "/run", "/tmp"]
