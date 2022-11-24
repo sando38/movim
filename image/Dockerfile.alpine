@@ -30,18 +30,33 @@ RUN set -x && apk -U upgrade --available --no-cache \
               $PHPIZE_DEPS \
               curl \
               git \
-       && curl -sSLf \
-              -o /usr/local/bin/install-php-extensions \
-              https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions \
-       && chmod +x /usr/local/bin/install-php-extensions \
-       && install-php-extensions \
+              imagemagick-dev \
+              libjpeg-turbo-dev \
+              libpng-dev \
+              libpq-dev \
+              libwebp-dev \
+              libzip-dev \
+              zlib-dev \
+       && apk add -t run-deps --no-cache \
+              imagemagick \
+              libgomp \
+              libjpeg-turbo \
+              libpng \
+              libpq \
+              libwebp \
+              libzip \
+              zlib \
+# BUILD: build and install php extensions
+       && docker-php-ext-configure gd --with-jpeg --with-webp \
+       && docker-php-ext-install -j "$(nproc)" \
               gd \
-              imagick \
               mysqli \
               pdo_mysql \
               pdo_pgsql \
               pgsql \
               zip \
+        && pecl install imagick \
+        && echo 'extension=imagick.so' > /usr/local/etc/php/conf.d/imagick.ini \
 # BUILD: download and install movim
        && git clone ${MOVIM_REPO} --branch ${MOVIM_VERSION} --single-branch . \
        && curl -sS https://getcomposer.org/installer | php \
@@ -60,7 +75,7 @@ RUN set -x && apk -U upgrade --available --no-cache \
        && ln -s /run /var/run \
 # CLEANUP: Remove source files, build dependencies, etc.
        && apk del build-deps \
-       && rm -rf /var/cache/apk/* /usr/local/bin/install-php-extensions /tmp/builder/.git*
+       && rm -rf /var/cache/apk/* /tmp/pear /tmp/builder/.git*
 
 WORKDIR ${MOVIM_HOME}
 EXPOSE 8080 9000
