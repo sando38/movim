@@ -8,9 +8,7 @@ Differences to the official image are:
 * runs as non-root user
 * does not require any Linux capabilities
 * build with `php8`
-* `s6-overlay` to manage the different processes
 * additionally includes `mysql`/`mariadb` database driver
-* (is available also as an Alpine based image, which has an [issue](https://github.com/sando38/movim/issues/1), however)
 
 Images are scanned daily by trivy and if necessary, the latest tag will be rebuilt and published.
 
@@ -18,12 +16,9 @@ Images are scanned daily by trivy and if necessary, the latest tag will be rebui
 
 The image name is `ghcr.io/sando38/movim`. Images are available from tag `v0.21rc3` onwards. The first image build has a `-r0` suffix.
 
-Experimental Alpine based images have an `-alpine` suffix.
-
 | Tags  | Description  | Additional notes  |
 | ------------ | ------------ | ------------ |
-| `v0.21rc3`, `latest`  | [Release changelog](https://github.com/movim/movim/blob/master/CHANGELOG.md)  |   |
-| `v0.21rc3-alpine`, `latest-alpine`  | [Release changelog](https://github.com/movim/movim/blob/master/CHANGELOG.md)  |   |
+| `v0.21rc4`, `latest`  | [Release changelog](https://github.com/movim/movim/blob/master/CHANGELOG.md)  |   |
 
 All images are based upon the official `php-fpm` docker images with latest OS (e.g. `Debian bullseye`).
 
@@ -74,7 +69,7 @@ Additionally, movim relies on a database server. It works with `postgresql` (rec
   postgresql:
     hostname: postgresql
     container_name: postgresql
-    image: postgres:14-alpine
+    image: postgres:15-alpine
     ...
 ```
 
@@ -87,13 +82,6 @@ This file contains the environment variables, which are read by movim during sta
 [https://github.com/movim/movim/blob/master/INSTALL.md#2-dotenv-configuration](https://github.com/movim/movim/blob/master/INSTALL.md#2-dotenv-configuration)
 
 The `DB_PASSWORD` environment variable can also be exchanged with `DB_PASSWORD_FILE` which makes use of Docker secrets.
-
-## ToDos
-
-Potential ToDos for the future:
-
-* Fix Alpine container image
-* Integrate nginx into the movim image
 
 ## Feedback
 

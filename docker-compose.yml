@@ -39,7 +39,7 @@ services:
 
   postgresql:
     ### general settings
-    image: postgres:14-alpine
+    image: postgres:15-alpine
     hostname: postgresql
     container_name: postgresql
     env_file:
