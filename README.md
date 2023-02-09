@@ -18,7 +18,7 @@ The image name is `ghcr.io/sando38/movim`. Images are available from tag `v0.21r
 
 | Tags  | Description  | Additional notes  |
 | ------------ | ------------ | ------------ |
-| `v0.21rc5`, `latest`  | [Release changelog](https://github.com/movim/movim/blob/master/CHANGELOG.md)  |   |
+| `v0.21rc6`, `latest`  | [Release changelog](https://github.com/movim/movim/blob/master/CHANGELOG.md)  |   |
 
 All images are based upon the official `php-fpm` docker images with latest OS (e.g. `Debian bullseye`).
 
