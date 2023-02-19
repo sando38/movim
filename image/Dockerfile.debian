@@ -78,7 +78,7 @@ RUN set -x && apt-get update && apt-get upgrade -y \
 WORKDIR ${MOVIM_HOME}
 EXPOSE 8080 9000
 USER ${USER}
-VOLUME ["${MOVIM_HOME}"]
+VOLUME ["${MOVIM_HOME}", "/tmp"]
 
 ENTRYPOINT ["/usr/bin/tini","--","docker-entrypoint.sh"]
 CMD ["/movim/daemon.php", "start"]
