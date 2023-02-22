@@ -23,7 +23,7 @@ WORKDIR /tmp/builder
 RUN set -x && apt-get update && apt-get upgrade -y \
 # BUILD: add build dependencies
 		&& apt-get install -qq --no-install-suggests --no-install-recommends \
-			tini unzip wget \
+			tini unzip wget nano \
 		&& savedAptMark="$(apt-mark showmanual)" \
 		&& apt-get install -qq --no-install-suggests --no-install-recommends \
 			libmagickwand-dev \
