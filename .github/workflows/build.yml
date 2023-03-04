@@ -28,9 +28,9 @@ jobs:
         id: check_version_changed
         shell: bash
         run: |
-          PKGREL=$(echo $(cat ${{ env.PKGREL_FILE }} | tail -n 1))
+          PKGREL=$(awk 'END{print}' ${{ env.PKGREL_FILE }})
           git checkout HEAD^
-          PKGREL_BASELINE=$(echo $(cat ${{ env.PKGREL_FILE }} | tail -n 1))
+          PKGREL_BASELINE=$(awk 'END{print}' ${{ env.PKGREL_FILE }})
           if [[ "$TAG_PKGREL" != "$PKGREL_BASELINE" ]]
           then echo "update=true" >> $GITHUB_OUTPUT
           else echo "update=false" >> $GITHUB_OUTPUT
@@ -55,10 +55,8 @@ jobs:
         name: Extract tag of release to be published/updated
         run: |
           movim_source='https://github.com/movim/movim/archive/refs/tags'
-          movim_version="$(echo $(cat ${{ env.PKGREL_FILE }} | tail -n 1) \
-                | sed 's/\-/ /1' | awk '{ print $1 }')"
-          echo "MOVIM_PKGREL=$(echo $(cat ${{ env.PKGREL_FILE }} \
-                | tail -n 1))" >> $GITHUB_ENV
+          movim_version="$(awk 'END{gsub("-", " "); print $1}' ${{ env.PKGREL_FILE }})"
+          echo "MOVIM_PKGREL=$(awk 'END{print}' ${{ env.PKGREL_FILE }})" >> $GITHUB_ENV
           echo "MOVIM_VERSION=$movim_version" >> $GITHUB_ENV
           echo "MOVIM_SHA512=$(wget $movim_source/$movim_version.tar.gz -O - \
                 | sha512sum | awk '{print $1}')" >> $GITHUB_ENV
