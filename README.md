@@ -81,7 +81,9 @@ This file contains the environment variables, which are read by movim during sta
 
 [https://github.com/movim/movim/blob/master/INSTALL.md#2-dotenv-configuration](https://github.com/movim/movim/blob/master/INSTALL.md#2-dotenv-configuration)
 
-The `DB_PASSWORD` environment variable can also be exchanged with `DB_PASSWORD_FILE` which makes use of Docker secrets.
+### Docker secrets
+
+Secrets may be used for all environment variables relevant for the [movim container](https://github.com/movim/movim/blob/master/.env.example). They need to be included with a `__FILE` suffix (see docker-compose.yml example).
 
 ## Feedback
 

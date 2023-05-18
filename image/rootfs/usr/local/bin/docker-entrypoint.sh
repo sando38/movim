@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 set -u
@@ -77,32 +77,23 @@ fi
 # cleanup build files
 rm -rf /tmp/movim
 
-# check if password is a "file" or variable
-info 'Set environment variables ...'
-if [ -n "${DB_PASSWORD_FILE:-}" ]; then
-    # create secret from file
-    export DB_PASSWORD=$(cat "$DB_PASSWORD_FILE")
-elif [ -z "${DB_PASSWORD:-}" ]; then
-    info 'WARNING: No DB_PASSWORD or DB_PASSWORD_FILE is set ...'
+
+# read secrets defined as 'Docker secrets'
+secrets_variables='/tmp/variables'
+for i in $(env | grep '__FILE')
+do
+        var_name="$(echo "$i" | sed -e 's|__FILE=| |' | awk '{print $1}')"
+        var_file="$(echo "$i" | sed -e 's|__FILE=| |' | awk '{print $2}')"
+        echo "$var_name=$(cat $var_file)" >> "$secrets_variables"
+done
+
+if [ -f "$secrets_variables" ]
+then
+        set -a
+        source "$secrets_variables"
+        set +a
+        rm "$secrets_variables"
 fi
-
-### create movim .env configuration file
-cat <<EOT > ${MOVIM_HOME}/.env
-# Database configuration
-DB_DRIVER=${DB_DRIVER:-pgsql}
-DB_HOST=${DB_HOST:-localhost}
-DB_PORT=${DB_PORT:-5432}
-DB_DATABASE=${DB_DATABASE:-movim}
-DB_USERNAME=${DB_USERNAME:-movim}
-DB_PASSWORD=${DB_PASSWORD:-movim}
-
-# Daemon configuration
-DAEMON_URL=${DAEMON_URL:-https://public-movim.url/}
-DAEMON_PORT=${DAEMON_PORT:-8080}
-DAEMON_INTERFACE=${DAEMON_INTERFACE:-0.0.0.0}
-DAEMON_DEBUG=${DAEMON_DEBUG:-false}
-DAEMON_VERBOSE=${DAEMON_VERBOSE:-false}
-EOT
 
 ### wait for database server to be available
 info 'Test database server connection ...'

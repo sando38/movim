@@ -27,7 +27,7 @@ services:
     ### Environment variables
     # environment:
     #   - DAEMON_URL="localhost"
-    #   - DB_PASSWORD_FILE=/run/secrets/db_password
+    #   - DB_PASSWORD__FILE=/run/secrets/db_password
     env_file:
       - movim.env
     # secrets:
