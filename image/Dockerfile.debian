@@ -4,8 +4,6 @@ ARG PHP_VERSION="8.0"
 ### Build PHP base
 FROM php:${PHP_VERSION}-fpm
 
-COPY --chown=9000:9000 rootfs /
-
 # BUILD: define build variables
 ARG MOVIM_SOURCE="https://github.com/movim/movim"
 ARG MOVIM_VERSION="v0.21.1"
@@ -37,6 +35,7 @@ RUN set -x && apt-get update && apt-get upgrade -y \
 		&& docker-php-ext-install -j "$(nproc)" \
 			gd \
 			mysqli \
+			opcache \
 			pdo_mysql \
 			pdo_pgsql \
 			pgsql \
@@ -54,7 +53,6 @@ RUN set -x && apt-get update && apt-get upgrade -y \
 		&& php composer.phar install --optimize-autoloader \
 		&& mkdir -p ${MOVIM_HOME}/log ${MOVIM_HOME}/cache ${MOVIM_HOME}/public/cache \
 		&& ln -s /usr/local/bin/php /usr/bin/php \
-		&& chmod +x /usr/local/bin/* \
 # RUNTIME: add runtime group and user
 		&& groupadd -g ${GID} ${USER} \
 		&& useradd -d ${MOVIM_HOME} -m -g ${GID} -u ${UID} -s /sbin/nologin ${USER} \
@@ -74,6 +72,8 @@ RUN set -x && apt-get update && apt-get upgrade -y \
 			| xargs -rt apt-mark manual \
 		&& apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
 		&& rm -rf /var/lib/apt/lists/* /tmp/builder /tmp/pear
+
+COPY --chown=9000:9000 rootfs /
 
 WORKDIR ${MOVIM_HOME}
 EXPOSE 8080 9000
